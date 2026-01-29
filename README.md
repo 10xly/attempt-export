@@ -18,6 +18,7 @@ const assert = require("assert")
 
 attemptExport(() => {
   assert(Symbol.species.constructor === Symbol)
+  return Symbol
 })
 ```
 
