@@ -1,6 +1,6 @@
 {
   "name": "attempt-export",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Attempt to export something, else export undefined.",
   "keywords": [
     "Attempt",

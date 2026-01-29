@@ -1,37 +1,37 @@
 const assert = require("assert")
-const factory = require("./index")
+const factory = require(".")
 
 describe("attemptExport", function () {
-  const attemptExport = factory({})
+  it("throws if input is not a function", function () {
+    const theModule = { exports: null }
+    const attemptExport = factory(theModule)
 
-  it("returns the function result when no error is thrown", function () {
-    const result = attemptExport(() => 42)
-    assert.strictEqual(result, 42)
-  })
-
-  it("returns undefined when the function throws", function () {
-    const result = attemptExport(() => {
-      throw new Error("boom")
-    })
-    assert.strictEqual(result, undefined)
-  })
-
-  it("allows returning undefined without throwing", function () {
-    const result = attemptExport(() => undefined)
-    assert.strictEqual(result, undefined)
-  })
-
-  it("throws if the argument is not a function", function () {
     assert.throws(
       () => attemptExport(123),
-      /attemptExport expects a function/
+      /attemptExport expects a function bro/
     )
   })
 
-  it("does not swallow non-Error throws", function () {
-    const result = attemptExport(() => {
-      throw "string error"
+  it("sets module.exports to return value when function succeeds", function () {
+    const theModule = { exports: null }
+    const attemptExport = factory(theModule)
+
+    attemptExport(() => 42)
+
+    assert.strictEqual(theModule.exports, 42)
+  })
+
+  it("sets module.exports to undefined primitive when function throws", function () {
+    const theModule = { exports: null }
+    const attemptExport = factory(theModule)
+
+    attemptExport(() => {
+      throw new Error("boom")
     })
-    assert.strictEqual(result, undefined)
+
+    assert.strictEqual(
+      theModule.exports,
+      require("primitive-value-undefined")
+    )
   })
 })
